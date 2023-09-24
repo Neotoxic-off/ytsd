@@ -51,7 +51,7 @@ class Scrapper:
         folder = None
         purge = 0
 
-        for link in tqdm(self.links, ascii = True, bar_format="{percentage:3.0f}%|{bar:50}{r_bar}", leave = False):
+        for link in tqdm(self.links, ascii = True, bar_format="{percentage:3.0f}%|{bar:50}{r_bar}", leave = True):
             r = self.__invoke__(
                 "get",
                 f"{self.host}{link}",
@@ -86,7 +86,7 @@ class Scrapper:
         self.torrents.clear()
 
     def __download_torrents__(self):
-        for torrent in tqdm(self.torrents, ascii = True, bar_format="{percentage:3.0f}%|{bar:50}{r_bar}", leave = True):
+        for torrent in tqdm(self.torrents, ascii = True, bar_format="{percentage:3.0f}%|{bar:50}{r_bar}", leave = False):
             r = requests.get(torrent["link"])
             with open("torrents/{}.torrent".format(torrent["title"]), "wb") as f:
                 f.write(r.content)
