@@ -7,14 +7,14 @@ from tqdm import tqdm
 from logger import Logger
 
 class Scrapper:
-    def __init__(self, max_page: int, cache: int):
+    def __init__(self, max_page: int):
         self.host = "https://yts.rs"
         self.soup = None
-        self.cache = cache
         self.max_page = max_page
         self.links = []
         self.magnets = []
         self.torrents = []
+        self.downloaded = 0
         self.logger = Logger()
 
         self.__launch__()
@@ -23,7 +23,9 @@ class Scrapper:
         if (os.path.exists("links.json") == True):
             with open("links.json", 'r') as f:
                 self.links = json.loads(f.read())
-            self.links = self.links[self.cache:]
+        if (os.path.exists("torrents") == True):
+            self.downloaded = len(os.listdir("torrents")) - 1
+            self.links = self.links[self.downloaded:]
 
     def __launch__(self):
         self.__load_links__()
@@ -141,4 +143,4 @@ class Scrapper:
         return (response)
 
 if (__name__ == "__main__"):
-    Scrapper(2712, 100)
+    Scrapper(2712)
