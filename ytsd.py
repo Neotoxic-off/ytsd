@@ -24,8 +24,9 @@ class Scrapper:
             with open("links.json", 'r') as f:
                 self.links = json.loads(f.read())
         if (os.path.exists("torrents") == True):
-            self.downloaded = len(os.listdir("torrents")) - 1
-            self.links = self.links[self.downloaded:]
+            if (len(os.listdir("torrents")) > 0):
+                self.downloaded = len(os.listdir("torrents")) - 1
+                self.links = self.links[self.downloaded:]
 
     def __launch__(self):
         self.__load_links__()
